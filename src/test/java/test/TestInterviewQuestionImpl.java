@@ -5,13 +5,16 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static util.InterviewQuestionTestUtil.compareLinkedListValues;
+import static util.InterviewQuestionTestUtil.constructBinaryTree;
 import static util.InterviewQuestionTestUtil.constructLinkedList;
+import static util.InterviewQuestionTestUtil.constructList;
 import static util.InterviewQuestionTestUtil.display2dArray;
 
 import exercise.InterviewQuestion;
 import exercise.InterviewQuestionImpl;
 import java.util.List;
 import model.ListNode;
+import model.TreeNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,22 +33,15 @@ public class TestInterviewQuestionImpl implements TestInterviewQuestion {
     int[] testCase = new int[]{1, 2, 5, -5, 3, -6, -4, 5, 2, 2, 3, 5, -6};
     final List<List<Integer>> testResult = qn.threeSum(testCase);
     assertEquals(5, testResult.size());
-
-    final List<List<Integer>> trueResult =
-        List.of(
-            List.of(-6, 1, 5),
-            List.of(-6, 3, 3),
-            List.of(-5, 2, 3),
-            List.of(-4, 1, 3),
-            List.of(-4, 2, 2));
-    assertEquals(trueResult, testResult);
+    assertEquals(List.of(List.of(-6, 1, 5), List.of(-6, 3, 3), List.of(-5, 2, 3), List.of(-4, 1, 3),
+        List.of(-4, 2, 2)), testResult);
   }
 
   @Override
   @Test
   public void testSetZeroes() {
-    int[][] matrix =
-        new int[][]{{1, 0, 1, 1, 0}, {0, 1, 0, 1, 1}, {1, 1, 1, 1, 1}, {1, 0, 0, 1, 1}};
+    int[][] matrix = new int[][]{{1, 0, 1, 1, 0}, {0, 1, 0, 1, 1}, {1, 1, 1, 1, 1},
+        {1, 0, 0, 1, 1}};
     qn.setZeroes(matrix);
     display2dArray(matrix);
     assertEquals(1, matrix[2][3]);
@@ -166,6 +162,37 @@ public class TestInterviewQuestionImpl implements TestInterviewQuestion {
     ListNode result = qn.getIntersectionNode(headA, headB);
     assertEquals(8, result.val);
     assertTrue(compareLinkedListValues(result, 8, 4, 5));
+  }
+
+  @Override
+  @Test
+  public void testInOrderTraversal() {
+    TreeNode root = constructBinaryTree(constructList(1, null, 2, null, null, 3, null));
+    final List<Integer> testResult = qn.inorderTraversal(root);
+    assertEquals(3, testResult.size());
+    assertEquals(List.of(1, 3, 2), testResult);
+  }
+
+  @Override
+  @Test
+  public void testZigzagLevelOrder() {
+    /**
+     * Input: root = [3,9,20,null,null,15,7]
+     * Output: [[3],[20,9],[15,7]]
+     */
+    TreeNode root = constructBinaryTree(constructList(3, 9, 20, null, null, 15, 7));
+    List<List<Integer>> testResult = qn.zigzagLevelOrder(root);
+    assertEquals(3, testResult.size());
+    assertEquals(List.of(List.of(3), List.of(20, 9), List.of(15, 7)), testResult);
+
+    /**
+     * Input: root = [1,2,3,4,5,6,7]
+     * Output: [[1],[3,2],[4,5,6,7]]
+     */
+    root = constructBinaryTree(constructList(1, 2, 3, 4, 5, 6, 7));
+    testResult = qn.zigzagLevelOrder(root);
+    assertEquals(3, testResult.size());
+    assertEquals(List.of(List.of(1), List.of(3, 2), List.of(4, 5, 6, 7)), testResult);
   }
 
   @Override

@@ -8,8 +8,10 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 import model.ListNode;
+import model.TreeNode;
 
 public class InterviewQuestionImpl implements InterviewQuestion {
 
@@ -382,6 +384,87 @@ public class InterviewQuestionImpl implements InterviewQuestion {
   }
 
   @Override
+  public List<Integer> inorderTraversal(TreeNode root) {
+    final String note = """
+        A typical in-order traversal question.
+        We use a wrapper method to complete the recursion.
+        The sequence of in-order traversal is left-node-right.
+        """;
+    List<Integer> res = new ArrayList<>();
+    if (root == null) {
+      return res;
+    }
+    inorderTraversal(root, res);
+    return res;
+  }
+
+  private void inorderTraversal(TreeNode root, List<Integer> res) {
+    if (root.left != null) {
+      inorderTraversal(root.left, res);
+    }
+
+    if (root != null) {
+      res.add(root.val);
+    }
+
+    if (root.right != null) {
+      inorderTraversal(root.right, res);
+    }
+  }
+
+  @Override
+  public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+    final String note = """
+        If we want to traverse by the zig-zag level order then we have to modify the BFS traverse.
+        Since the direction of appending numbers is changed at each level, we will also alter the flag for each level.
+        Different flag will result in the difference of appending the node values.
+        Since we only go through all the tree node once, the overall time complexity is O(N).
+        """;
+    List<List<Integer>> res = new ArrayList<>();
+
+    if (root == null) {
+      return res;
+    }
+
+    // traverse the tree using BFS
+    Queue<TreeNode> queue = new LinkedList<>();
+    queue.add(root);
+
+    // the direction is left-to-right at the root level
+    boolean isFromLeftToRight = true;
+
+    while (!queue.isEmpty()) {
+      List<Integer> temp = new ArrayList<>();
+      int noOfLeaves = queue.size();
+      // we control the direction of appending values on a level basis
+      // the size of the current queue = how many elements are there at that depth
+      while (noOfLeaves > 0) {
+        TreeNode curr = queue.poll();
+
+        if (isFromLeftToRight) {
+          temp.add(curr.val);
+        } else {
+          temp.add(0, curr.val); // append values to the head if reversed direction
+        }
+
+        if (curr.left != null) {
+          queue.offer(curr.left);
+        }
+
+        if (curr.right != null) {
+          queue.offer(curr.right);
+        }
+
+        noOfLeaves--;
+      }
+
+      res.add(temp);
+      isFromLeftToRight = !isFromLeftToRight; // invert the flag for each depth
+    }
+    return res;
+  }
+
+  @Override
   public boolean isHappy(int n) {
     final String note = """
         If the number is happy then the sum of digit square will converge to 1 else it will endlessly loop.
@@ -433,6 +516,4 @@ public class InterviewQuestionImpl implements InterviewQuestion {
     }
     return count;
   }
-
-
 }

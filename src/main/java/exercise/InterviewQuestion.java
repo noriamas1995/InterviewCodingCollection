@@ -2,6 +2,7 @@ package exercise;
 
 import java.util.List;
 import model.ListNode;
+import model.TreeNode;
 
 public interface InterviewQuestion {
   /* Arrays and Strings **/
@@ -54,6 +55,17 @@ public interface InterviewQuestion {
   ListNode getIntersectionNode(ListNode headA, ListNode headB);
 
   /* Trees and Graphs **/
+
+  /**
+   * @see <a href="https://leetcode.com/explore/interview/card/top-interview-questions-medium/108/trees-and-graphs/786/">Leetcode</a>
+   */
+  List<Integer> inorderTraversal(TreeNode root);
+
+  /**
+   * @see <a href="https://leetcode.com/explore/interview/card/top-interview-questions-medium/108/trees-and-graphs/787/">Leetcode</a>
+   */
+  List<List<Integer>> zigzagLevelOrder(TreeNode root);
+
   /* Backtracking **/
   /* Sorting and Searching **/
   /* Dynamic Programming **/
@@ -68,5 +80,6 @@ public interface InterviewQuestion {
    * @see <a href="https://leetcode.com/explore/interview/card/top-interview-questions-medium/113/math/816/">Leetcode</a>
    */
   int trailingZeroes(int n);
+
   /* Others **/
 }

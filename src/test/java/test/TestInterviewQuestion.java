@@ -34,6 +34,12 @@ public interface TestInterviewQuestion {
   void testGetIntersectionNode();
 
   /* Trees and Graphs **/
+  @Test
+  void testInOrderTraversal();
+
+  @Test
+  void testZigzagLevelOrder();
+
   /* Backtracking **/
   /* Sorting and Searching **/
   /* Dynamic Programming **/

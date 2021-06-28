@@ -1,6 +1,9 @@
 package util;
 
+import java.util.ArrayList;
+import java.util.List;
 import model.ListNode;
+import model.TreeNode;
 
 public final class InterviewQuestionTestUtil {
 
@@ -39,12 +42,12 @@ public final class InterviewQuestionTestUtil {
   }
 
   /**
-   * Compare the linked list with an array of integers to check if they have same values and
+   * Compare the linked list with an array of integers to check if they have same values in
    * sequence
    *
    * @param node The head of the linked list to compare
    * @param nums An array of integers to compare to
-   * @return If the linked list matches with the provided numbers exactly
+   * @return If the linked list matches with the provided numbers exactly (i.e. same length too)
    */
   public static boolean compareLinkedListValues(ListNode node, int... nums) {
     for (int num : nums) {
@@ -60,5 +63,54 @@ public final class InterviewQuestionTestUtil {
     }
 
     return true;
+  }
+
+  /**
+   * Construct a binary tree by a list of numbers
+   *
+   * @param nums A list of integers as node values.
+   *             <p> Notice that null values have to be given for the nodes that are null just like
+   *             in LeetCode</p>
+   * @return The root of the constructed binary tree
+   */
+  public static TreeNode constructBinaryTree(List<Integer> nums) {
+    if (nums == null || nums.size() == 0) {
+      return new TreeNode(); // dummy root
+    }
+    return constructBinaryTree(nums, null, 0);
+  }
+
+  private static TreeNode constructBinaryTree(List<Integer> nums, TreeNode root, int i) {
+    // base case for recursion
+    if (i < nums.size()) {
+      Integer val = nums.get(i);
+      TreeNode temp = (val == null ? null : new TreeNode(val));
+      root = temp;
+
+      // insert left child and right child
+      if (root != null) {
+        root.left = constructBinaryTree(nums, root.left, 2 * i + 1);
+        root.right = constructBinaryTree(nums, root.right, 2 * i + 2);
+      }
+    }
+    return root;
+  }
+
+  /**
+   * Construct a simple list (with potential null values)
+   *
+   * @param nums A list of numbers
+   * @return The formed integer list
+   */
+  @SafeVarargs
+  public static <E> List<E> constructList(E... nums) {
+    List<E> res = new ArrayList<>();
+    if (nums == null || nums.length == 0) {
+      return res;
+    }
+    for (E num : nums) {
+      res.add(num);
+    }
+    return res;
   }
 }
