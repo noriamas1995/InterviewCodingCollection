@@ -17,6 +17,12 @@ public final class InterviewQuestionTestUtil {
     }
   }
 
+  /**
+   * Construct a linked list from numbers
+   *
+   * @param nums The elements in the linked list in sequence
+   * @return The head node of the formed linked list
+   */
   public static ListNode constructLinkedList(int... nums) {
     if (nums.length == 0) {
       return new ListNode(0);
@@ -32,6 +38,14 @@ public final class InterviewQuestionTestUtil {
     return head;
   }
 
+  /**
+   * Compare the linked list with an array of integers to check if they have same values and
+   * sequence
+   *
+   * @param node The head of the linked list to compare
+   * @param nums An array of integers to compare to
+   * @return If the linked list matches with the provided numbers exactly
+   */
   public static boolean compareLinkedListValues(ListNode node, int... nums) {
     for (int num : nums) {
       if (node.val != num) {
