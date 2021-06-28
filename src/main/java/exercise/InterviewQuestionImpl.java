@@ -3,10 +3,12 @@ package exercise;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import model.ListNode;
 
 public class InterviewQuestionImpl implements InterviewQuestion {
@@ -378,4 +380,59 @@ public class InterviewQuestionImpl implements InterviewQuestion {
     }
     return longer; // return either node
   }
+
+  @Override
+  public boolean isHappy(int n) {
+    final String note = """
+        If the number is happy then the sum of digit square will converge to 1 else it will endlessly loop.
+        Thus we can cache its sum into a hash set, if we detected a loop i.e. inserting an already-existed sum, it means that the number is not happy.
+        """;
+    Set<Integer> cache = new HashSet<>();
+    int sumOfSquare = 0;
+    // break the loop if the sum becomes 1
+    while (sumOfSquare != 1) {
+      sumOfSquare = calculateSumOfDigitSquare(n);
+      // if duplicate result is found then the number is unhappy
+      if (!cache.add(sumOfSquare)) {
+        return false;
+      }
+      n = sumOfSquare;
+    }
+    return true;
+  }
+
+  private int calculateSumOfDigitSquare(int n) {
+    int sum = 0;
+    int num = n;
+
+    while (num > 0) {
+      int digit = num % 10;
+      sum += (int) Math.pow(digit, 2);
+      num /= 10;
+    }
+
+    return sum;
+  }
+
+  @Override
+  public int trailingZeroes(int n) {
+    final String note = """
+        For e.g. for 10! = 362880 we know that it has 1 trailing zero because it can be divided by 10 without a reminder.
+        10 has prime factors of 2 and 5 only. So the answer we are looking for is the number of factors of 10 in n!.
+        It also means we should figure out how many 5s and how many 2s are hiding within the sequence of numbers being multiplied together in the calculation for n!.
+        However, there too many factors of 2 since each even number will have multiple ones. i.e. we should find Min(# of 5s, # of 2s) = # of 5s.
+        The equation for calculating the number of multiples of 5 within n! is n / 5. For example, 10! = 1 * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10.
+        But we need to be sure to count the additional 5s hiding in numbers like 25, 125, 625... like for 25 we need to add n/25 to the count too.
+        Essentially finding counts of n/5^2, n/5^3, n/5^4 etc. is equivalent to divide n by 5 each time and get the count.
+        """;
+    int count = 0;
+    while (n != 0) {
+      int temp = n / 5;
+      count += temp;
+      n = temp;
+    }
+    return count;
+  }
+
+
 }

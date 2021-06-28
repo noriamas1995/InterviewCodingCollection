@@ -1,6 +1,7 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static util.InterviewQuestionTestUtil.compareLinkedListValues;
@@ -165,5 +166,21 @@ public class TestInterviewQuestionImpl implements TestInterviewQuestion {
     ListNode result = qn.getIntersectionNode(headA, headB);
     assertEquals(8, result.val);
     assertTrue(compareLinkedListValues(result, 8, 4, 5));
+  }
+
+  @Override
+  @Test
+  public void testIsHappy() {
+    assertTrue(qn.isHappy(19));
+    assertFalse(qn.isHappy(2));
+  }
+
+  @Override
+  @Test
+  public void testTrailingZeroes() {
+    assertEquals(2, qn.trailingZeroes(10));
+    assertEquals(1, qn.trailingZeroes(5));
+    assertEquals(0, qn.trailingZeroes(2));
+    assertEquals(6, qn.trailingZeroes(25));
   }
 }

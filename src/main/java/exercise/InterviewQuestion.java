@@ -58,5 +58,15 @@ public interface InterviewQuestion {
   /* Sorting and Searching **/
   /* Dynamic Programming **/
   /* Math **/
+
+  /**
+   * @see <a href="https://leetcode.com/explore/interview/card/top-interview-questions-medium/113/math/815/">Leetcode</a>
+   */
+  boolean isHappy(int n);
+
+  /**
+   * @see <a href="https://leetcode.com/explore/interview/card/top-interview-questions-medium/113/math/816/">Leetcode</a>
+   */
+  int trailingZeroes(int n);
   /* Others **/
 }

@@ -32,4 +32,16 @@ public interface TestInterviewQuestion {
 
   @Test
   void testGetIntersectionNode();
+
+  /* Trees and Graphs **/
+  /* Backtracking **/
+  /* Sorting and Searching **/
+  /* Dynamic Programming **/
+  /* Math **/
+  @Test
+  void testIsHappy();
+
+  @Test
+  void testTrailingZeroes();
+  /* Others **/
 }
