@@ -40,6 +40,18 @@ public interface TestInterviewQuestion {
   @Test
   void testZigzagLevelOrder();
 
+  @Test
+  void testBuildTree();
+
+  @Test
+  void testConnect();
+
+  @Test
+  void testKthSmallest();
+
+  @Test
+  void testNumIslands();
+
   /* Backtracking **/
   /* Sorting and Searching **/
   /* Dynamic Programming **/

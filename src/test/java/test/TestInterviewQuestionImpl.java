@@ -197,6 +197,38 @@ public class TestInterviewQuestionImpl implements TestInterviewQuestion {
 
   @Override
   @Test
+  public void testBuildTree() {
+    /**
+     * Input: preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]
+     * Output: [3,9,20,null,null,15,7]
+     */
+    // TODO: 6/30/2021 Complete assert statement
+    TreeNode root = qn.buildTree(new int[]{3, 9, 20, 15, 7}, new int[]{9, 3, 15, 20, 7});
+
+    root = qn.buildTree(new int[]{-1}, new int[]{-1});
+    assertEquals(-1,root.val);
+    assertNull(root.left);
+    assertNull(root.right);
+  }
+
+  @Override
+  @Test
+  public void testConnect() {
+    // TODO: 6/29/2021 Add test case
+  }
+
+  @Override
+  public void testKthSmallest() {
+
+  }
+
+  @Override
+  public void testNumIslands() {
+
+  }
+
+  @Override
+  @Test
   public void testIsHappy() {
     assertTrue(qn.isHappy(19));
     assertFalse(qn.isHappy(2));

@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import model.ListNode;
+import model.Node;
 import model.TreeNode;
 
 public class InterviewQuestionImpl implements InterviewQuestion {
@@ -462,6 +463,101 @@ public class InterviewQuestionImpl implements InterviewQuestion {
       isFromLeftToRight = !isFromLeftToRight; // invert the flag for each depth
     }
     return res;
+  }
+
+  @Override
+  public TreeNode buildTree(int[] preorder, int[] inorder) {
+    final String note = """
+        To understand the question we have to start with the pattern in the respective array,
+        preorder is node-left-right and inorder is left-node-right.
+        We may find that there is actually a recursive pattern that we can immediately see the root node from preorder,
+        after that we look for that number in inorder array and then we can determine what are the elements on the left and right subtrees.
+        We repeat this process for all roots in preorder array.
+        Since we need to constantly search for the index of value in inorder array, we use a hashmap as the cache.
+        The overall time complexity should be O(N) as well as space compexity.
+        """;
+    return buildTree(preorder, 0, inorder, 0, inorder.length - 1, buildInorderCache(inorder));
+  }
+
+  private Map<Integer, Integer> buildInorderCache(int[] inorder) {
+    Map<Integer, Integer> res = new HashMap<>();
+    for (int i = 0; i < inorder.length; i++) {
+      res.put(inorder[i], i);
+    }
+    return res;
+  }
+
+  private TreeNode buildTree(int[] preorder, int preIndex, int[] inorder, int inStart, int inEnd,
+      Map<Integer, Integer> cache) {
+    if (preIndex > preorder.length - 1 || inStart > inEnd) {
+      return null;
+    }
+
+    final int val = preorder[preIndex];
+    final int indexOfValInInorder = cache.get(val);
+    final int noOfNodesOnLeftSubTree = indexOfValInInorder - inStart;
+
+    TreeNode root = new TreeNode(val);
+
+    root.left = buildTree(preorder, preIndex + 1, inorder, inStart, indexOfValInInorder - 1, cache);
+    // to get the preIndex of the right subtree, we should start from the original preIndex, skipping all nodes on the left subtree and increment by 1
+    root.right = buildTree(preorder, preIndex + noOfNodesOnLeftSubTree + 1, inorder,
+        indexOfValInInorder + 1, inEnd, cache);
+
+    return root;
+  }
+
+  @Override
+  public Node connect(Node root) {
+    final String note = """
+        Since we need to traverse all the nodes, the time complexity cannot be better than O(N).
+        In fact, we can toggle the next pointer on a per level basis which naturally leads to a modified BFS.
+        We cannot directly do curr.next = queue.peek() because we are still appending the child nodes into the queue.
+        """;
+    Queue<Node> queue = new LinkedList<>();
+    if (root != null) {
+      queue.offer(root);
+    }
+
+    while (!queue.isEmpty()) {
+      int size = queue.size();
+      List<Node> temp = new ArrayList<>(); // use a temporary list to hold the nodes within the level
+      while (size > 0) {
+        Node curr = queue.poll();
+        temp.add(curr);
+        if (curr.left != null) {
+          queue.offer(curr.left);
+        }
+        if (curr.right != null) {
+          queue.offer(curr.right);
+        }
+        size--;
+      }
+      connect(temp); // connect the nodes on this level
+    }
+    return root;
+  }
+
+  @Override
+  public int kthSmallest(TreeNode root, int k) {
+    return 0;
+  }
+
+  @Override
+  public int numIslands(char[][] grid) {
+    return 0;
+  }
+
+  private void connect(List<Node> temp) {
+    // connect the nodes in the temporary list in sequence
+    for (int i = 0; i < temp.size(); i++) {
+      Node node = temp.get(i);
+      if (i == temp.size() - 1) {
+        node.next = null;
+        return;
+      }
+      node.next = temp.get(i + 1);
+    }
   }
 
   @Override

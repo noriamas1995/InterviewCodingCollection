@@ -2,6 +2,7 @@ package exercise;
 
 import java.util.List;
 import model.ListNode;
+import model.Node;
 import model.TreeNode;
 
 public interface InterviewQuestion {
@@ -66,6 +67,25 @@ public interface InterviewQuestion {
    */
   List<List<Integer>> zigzagLevelOrder(TreeNode root);
 
+  /**
+   * @see <a href="https://leetcode.com/explore/interview/card/top-interview-questions-medium/108/trees-and-graphs/788/">Leetcode</a>
+   */
+  TreeNode buildTree(int[] preorder, int[] inorder);
+
+  /**
+   * @see <a href="https://leetcode.com/explore/interview/card/top-interview-questions-medium/108/trees-and-graphs/789/">Leetcode</a>
+   */
+  Node connect(Node root);
+
+  /**
+   * @see <a href="https://leetcode.com/explore/interview/card/top-interview-questions-medium/108/trees-and-graphs/790/">Leetcode</a>
+   */
+  int kthSmallest(TreeNode root, int k);
+
+  /**
+   * @see <a href="https://leetcode.com/explore/interview/card/top-interview-questions-medium/108/trees-and-graphs/792/">Leetcode</a>
+   */
+  int numIslands(char[][] grid);
   /* Backtracking **/
   /* Sorting and Searching **/
   /* Dynamic Programming **/
