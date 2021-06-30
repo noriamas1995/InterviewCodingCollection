@@ -86,6 +86,7 @@ public interface InterviewQuestion {
    * @see <a href="https://leetcode.com/explore/interview/card/top-interview-questions-medium/108/trees-and-graphs/792/">Leetcode</a>
    */
   int numIslands(char[][] grid);
+
   /* Backtracking **/
   /* Sorting and Searching **/
   /* Dynamic Programming **/

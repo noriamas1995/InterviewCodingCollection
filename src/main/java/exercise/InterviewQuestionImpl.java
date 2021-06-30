@@ -540,12 +540,57 @@ public class InterviewQuestionImpl implements InterviewQuestion {
 
   @Override
   public int kthSmallest(TreeNode root, int k) {
-    return 0;
+    final String note = """
+        Given the tree is a BST, we have to utilize its properties.
+        We know that the smallest node is the leave on the bottom left, the 2nd smallest node is its parent and the 3rd one is the parent's right node.
+        We found this pattern is exactly the same as in-order traversal of a binary tree.
+        Thus we can use a list to hold the traversed values, then the k-th smallest is just list[k-1].
+        Also this method can be optimized to directly return when list size reaches k as the nodes behind k-th node won't be needed.
+        """;
+    List<Integer> nodes = new ArrayList<>();
+    kthSmallest(nodes, root, k);
+    return nodes.get(k - 1);
+  }
+
+  private void kthSmallest(List<Integer> nodes, TreeNode root, final int k) {
+    if (nodes.size() >= k) {
+      return;
+    }
+    if (root != null) {
+      kthSmallest(nodes, root.left, k);
+      nodes.add(root.val);
+      kthSmallest(nodes, root.right, k);
+    }
   }
 
   @Override
   public int numIslands(char[][] grid) {
-    return 0;
+    final String note = """
+        The core idea is that for each island cell, we will search the full island and then increse the count by 1.
+        When we find the rest of the island cells for that particular island cell, we also change the cell value to water to show that we already searched this cell.
+        That is pretty much the terminate condition of the recursive call, we need to make sure the index is within range and the cell is still island not water.
+        """;
+    int count = 0;
+    for (int i = 0; i < grid.length; i++) {
+      for (int j = 0; j < grid[0].length; j++) {
+        if (grid[i][j] == '1') {
+          searchGrid(i, j, grid);
+          count++;
+        }
+      }
+    }
+    return count;
+  }
+
+  private void searchGrid(int i, int j, char[][] grid) {
+    if (i < 0 || i >= grid.length || j < 0 || j >= grid[0].length || grid[i][j] == '0') {
+      return;
+    }
+    grid[i][j] = '0';
+    searchGrid(i - 1, j, grid); // search up
+    searchGrid(i + 1, j, grid); // search down
+    searchGrid(i, j - 1, grid); // search left
+    searchGrid(i, j + 1, grid); // search right
   }
 
   private void connect(List<Node> temp) {

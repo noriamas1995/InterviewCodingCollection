@@ -202,11 +202,15 @@ public class TestInterviewQuestionImpl implements TestInterviewQuestion {
      * Input: preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]
      * Output: [3,9,20,null,null,15,7]
      */
-    // TODO: 6/30/2021 Complete assert statement
     TreeNode root = qn.buildTree(new int[]{3, 9, 20, 15, 7}, new int[]{9, 3, 15, 20, 7});
+    assertEquals(3, root.val);
+    assertEquals(9, root.left.val);
+    assertEquals(20, root.right.val);
+    assertEquals(15, root.right.left.val);
+    assertEquals(7, root.right.right.val);
 
     root = qn.buildTree(new int[]{-1}, new int[]{-1});
-    assertEquals(-1,root.val);
+    assertEquals(-1, root.val);
     assertNull(root.left);
     assertNull(root.right);
   }
@@ -218,13 +222,23 @@ public class TestInterviewQuestionImpl implements TestInterviewQuestion {
   }
 
   @Override
+  @Test
   public void testKthSmallest() {
+    int testResult = qn.kthSmallest(constructBinaryTree(constructList(3, 1, 4, null, 2)), 1);
+    assertEquals(1, testResult);
 
+    testResult = qn
+        .kthSmallest(constructBinaryTree(constructList(5, 3, 6, 2, 4, null, null, 1)), 3);
+    assertEquals(3, testResult);
   }
 
   @Override
+  @Test
   public void testNumIslands() {
-
+    char[][] island = new char[][]{{'1', '1', '1', '1', '0'}, {'1', '1', '0', '1', '0'},
+        {'1', '1', '0', '0', '0'}, {'0', '0', '0', '0', '0'}};
+    final int noOfIsland = qn.numIslands(island);
+    assertEquals(1, noOfIsland);
   }
 
   @Override
