@@ -12,6 +12,7 @@ import static util.InterviewQuestionTestUtil.display2dArray;
 
 import exercise.InterviewQuestion;
 import exercise.InterviewQuestionImpl;
+import java.util.ArrayList;
 import java.util.List;
 import model.ListNode;
 import model.TreeNode;
@@ -239,6 +240,32 @@ public class TestInterviewQuestionImpl implements TestInterviewQuestion {
         {'1', '1', '0', '0', '0'}, {'0', '0', '0', '0', '0'}};
     final int noOfIsland = qn.numIslands(island);
     assertEquals(1, noOfIsland);
+  }
+
+  @Override
+  @Test
+  public void testLetterCombinations() {
+    List<String> testResult = qn.letterCombinations("23");
+    assertEquals(List.of("ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"), testResult);
+
+    testResult = qn.letterCombinations("2");
+    assertEquals(List.of("a", "b", "c"), testResult);
+
+    testResult = qn.letterCombinations("");
+    assertEquals(0, testResult.size());
+  }
+
+  @Override
+  @Test
+  public void testGenerateParenthesis() {
+    List<String> testResult = qn.generateParenthesis(3);
+    assertEquals(List.of("((()))", "(()())", "(())()", "()(())", "()()()"), testResult);
+
+    testResult = qn.generateParenthesis(1);
+    assertEquals("()", testResult.get(0));
+
+    testResult = qn.generateParenthesis(2);
+    assertEquals(List.of("(())", "()()"), testResult);
   }
 
   @Override

@@ -88,6 +88,32 @@ public interface InterviewQuestion {
   int numIslands(char[][] grid);
 
   /* Backtracking **/
+
+  /**
+   * @see <a href="https://leetcode.com/explore/interview/card/top-interview-questions-medium/109/backtracking/793/">Leetcode</a>
+   */
+  List<String> letterCombinations(String digits);
+
+  /**
+   * @see <a href="https://leetcode.com/explore/interview/card/top-interview-questions-medium/109/backtracking/794/">Leetcode</a>
+   */
+  List<String> generateParenthesis(int n);
+
+  /**
+   * @see <a href="https://leetcode.com/explore/interview/card/top-interview-questions-medium/109/backtracking/795/">Leetcode</a>
+   */
+  List<List<Integer>> permute(int[] nums);
+
+  /**
+   * @see <a href="https://leetcode.com/explore/interview/card/top-interview-questions-medium/109/backtracking/796/">Leetcode</a>
+   */
+  List<List<Integer>> subsets(int[] nums);
+
+  /**
+   * @see <a href="https://leetcode.com/explore/interview/card/top-interview-questions-medium/109/backtracking/797/">Leetcode</a>
+   */
+  boolean exist(char[][] board, String word);
+
   /* Sorting and Searching **/
   /* Dynamic Programming **/
   /* Math **/

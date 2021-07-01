@@ -53,6 +53,12 @@ public interface TestInterviewQuestion {
   void testNumIslands();
 
   /* Backtracking **/
+  @Test
+  void testLetterCombinations();
+
+  @Test
+  void testGenerateParenthesis();
+
   /* Sorting and Searching **/
   /* Dynamic Programming **/
   /* Math **/

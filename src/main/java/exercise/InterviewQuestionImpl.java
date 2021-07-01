@@ -538,6 +538,18 @@ public class InterviewQuestionImpl implements InterviewQuestion {
     return root;
   }
 
+  private void connect(List<Node> temp) {
+    // connect the nodes in the temporary list in sequence
+    for (int i = 0; i < temp.size(); i++) {
+      Node node = temp.get(i);
+      if (i == temp.size() - 1) {
+        node.next = null;
+        return;
+      }
+      node.next = temp.get(i + 1);
+    }
+  }
+
   @Override
   public int kthSmallest(TreeNode root, int k) {
     final String note = """
@@ -593,16 +605,97 @@ public class InterviewQuestionImpl implements InterviewQuestion {
     searchGrid(i, j + 1, grid); // search right
   }
 
-  private void connect(List<Node> temp) {
-    // connect the nodes in the temporary list in sequence
-    for (int i = 0; i < temp.size(); i++) {
-      Node node = temp.get(i);
-      if (i == temp.size() - 1) {
-        node.next = null;
-        return;
-      }
-      node.next = temp.get(i + 1);
+  @Override
+  public List<String> letterCombinations(String digits) {
+    final String note = """
+        As we need to find all combinations, we can use backtracking algorithem which does better than Brute Force.
+        Intuitively we can cache the mappings between digits and characters into an array so that we can get at [char - '0'].
+        Essentially backtracking means if match conditions, then add the solutions while if not, we need to find more combinations.
+        For each digit in the original digits, we have to try all the 3 characters, that is why we store the position of the index of digits in the recursive call.
+        Within each recursive call, there should be a loop to try all characters and most importantly, we have to remove the added character so that we can try other combinations near the end of the loop.
+        """;
+    List<String> res = new ArrayList<>();
+
+    if (digits == null || digits.isEmpty()) {
+      return res;
     }
+
+    final String[] cache = new String[]{"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv",
+        "wxyz"};
+    StringBuilder sb = new StringBuilder();
+    letterCombinations(res, digits, sb, cache, 0);
+    return res;
+  }
+
+  private void letterCombinations(List<String> res, String digits, StringBuilder sb, String[] cache,
+      int index) {
+    // if meet the condition we add it into the solution list
+    if (sb.length() == digits.length()) {
+      res.add(sb.toString());
+      return;
+    } else {
+      String letters = cache[digits.charAt(index) - '0'];
+      // for each digit we loop through all their represented characters
+      for (int i = 0; i < letters.length(); i++) {
+        letterCombinations(res, digits, sb.append(letters.charAt(i)), cache,
+            index + 1); // try different combinations for the next digit
+        sb.setLength(sb.length() - 1); // remove the last i.e. the previously added character
+      }
+    }
+  }
+
+  @Override
+  public List<String> generateParenthesis(int n) {
+    final String note = """
+        The essential idea behind the backtracking here is we need to try different combinations of parenthesis.
+        We should start with a single (, then recursively call for all other combinations like ((.., (((...
+        The maximum number of left brackets depends on the value of n i.e. # of left brackets <= n.
+        Then since we are tracking both the number of left and right brackets, we also need to update the number of right brackets.
+        That being said, for each combinations of left bracket, we recursively call for all other combinations of right bracket.
+        The maximum number of right brackets depends on the value of left brackets i.e. # of right must <= # of left
+        """;
+    List<String> res = new ArrayList<>();
+
+    if (n == 0) {
+      return res;
+    }
+
+    StringBuilder sb = new StringBuilder();
+    generateParenthesis(res, n, sb, 0, 0);
+    return res;
+  }
+
+  private void generateParenthesis(List<String> res, int n, StringBuilder sb, int noOfLeftBracket,
+      int noOfRightBracket) {
+    if (noOfLeftBracket + noOfRightBracket == n * 2) {
+      res.add(sb.toString());
+      return;
+    }
+
+    if (noOfLeftBracket < n) {
+      generateParenthesis(res, n, sb.append("("), noOfLeftBracket + 1, noOfRightBracket);
+      sb.setLength(sb.length() - 1);
+    }
+
+    if (noOfRightBracket < noOfLeftBracket) {
+      generateParenthesis(res, n, sb.append(")"), noOfLeftBracket, noOfRightBracket + 1);
+      sb.setLength(sb.length() - 1);
+    }
+  }
+
+  @Override
+  public List<List<Integer>> permute(int[] nums) {
+    return null;
+  }
+
+  @Override
+  public List<List<Integer>> subsets(int[] nums) {
+    return null;
+  }
+
+  @Override
+  public boolean exist(char[][] board, String word) {
+    return false;
   }
 
   @Override
