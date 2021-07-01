@@ -270,6 +270,26 @@ public class TestInterviewQuestionImpl implements TestInterviewQuestion {
 
   @Override
   @Test
+  public void testPermute() {
+    /**
+     * Input: nums = [1,2,3]
+     * Output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+     */
+    List<List<Integer>> testResult = qn.permute(new int[]{1, 2, 3});
+    assertEquals(6, testResult.size());
+    assertEquals(List.of(List.of(1, 2, 3), List.of(1, 3, 2), List.of(2, 1, 3), List.of(2, 3, 1),
+        List.of(3, 1, 2), List.of(3, 2, 1)), testResult);
+
+    testResult = qn.permute(new int[]{0, 1});
+    assertEquals(2, testResult.size());
+    assertEquals(List.of(List.of(0, 1), List.of(1, 0)), testResult);
+
+    testResult = qn.permute(new int[]{1});
+    assertEquals(List.of(List.of(1)), testResult);
+  }
+
+  @Override
+  @Test
   public void testIsHappy() {
     assertTrue(qn.isHappy(19));
     assertFalse(qn.isHappy(2));

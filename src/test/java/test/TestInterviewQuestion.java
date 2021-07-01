@@ -59,6 +59,9 @@ public interface TestInterviewQuestion {
   @Test
   void testGenerateParenthesis();
 
+  @Test
+  void testPermute();
+
   /* Sorting and Searching **/
   /* Dynamic Programming **/
   /* Math **/

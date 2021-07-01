@@ -685,7 +685,35 @@ public class InterviewQuestionImpl implements InterviewQuestion {
 
   @Override
   public List<List<Integer>> permute(int[] nums) {
-    return null;
+    final String note = """
+        Let's say the array is {1,2,3}, we know that in order to use backtracking we have to start with combination starting with 1,
+        then it will reduce to 1,2,x or 1,3,x and eventually reduce to one precise solution.
+        Temp is the list we used to hold temporary solutions.
+        Regarding the backtracking process, obviously we need to check every number's combination so we loop through the whole numbers array.
+        We see that when we have 1,x,x, the value of x cannot be 1; when we have 1,2,x, the value of x cannot be 1 and 2..
+        Following this pattern we find that we need to make sure that the list doesn't contain duplicated numbers, so if it already contains the number we will skip.
+        This is based on that the number array contains only unique values.
+        """;
+    List<List<Integer>> res = new ArrayList<>();
+    permute(res, new ArrayList<>(), nums);
+    return res;
+  }
+
+  private void permute(List<List<Integer>> res, List<Integer> list, int[] nums) {
+    List<Integer> temp = new ArrayList<>(list);
+    if (temp.size() == nums.length) {
+      res.add(temp);
+      return;
+    } else {
+      for (int i = 0; i < nums.length; i++) {
+        // if numbers already added before, skip and continue
+        if (!temp.contains(nums[i])) {
+          temp.add(nums[i]);
+          permute(res, temp, nums);
+          temp.remove(temp.size() - 1);
+        }
+      }
+    }
   }
 
   @Override
