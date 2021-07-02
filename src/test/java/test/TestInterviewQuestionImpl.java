@@ -290,6 +290,29 @@ public class TestInterviewQuestionImpl implements TestInterviewQuestion {
 
   @Override
   @Test
+  public void testSubsets() {
+    /**
+     * Input: nums = [1,2,3]
+     * Output: [[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
+     */
+    var testResult = qn.subsets(new int[]{1, 2, 3});
+    assertEquals(8, testResult.size());
+    assertTrue(testResult.contains(List.of()));
+    assertEquals(
+        List.of(List.of(), List.of(1), List.of(1, 2), List.of(1, 2, 3), List.of(1, 3), List.of(2),
+            List.of(2, 3), List.of(3)), testResult);
+  }
+
+  @Override
+  @Test
+  public void testExist() {
+    char[][] board = new char[][]{{'A', 'B', 'C', 'E'}, {'S', 'F', 'C', 'S'}, {'A', 'D', 'E', 'E'}};
+    assertTrue(qn.exist(board, "ABCCED"));
+    assertFalse(qn.exist(board, "ABCB"));
+  }
+
+  @Override
+  @Test
   public void testIsHappy() {
     assertTrue(qn.isHappy(19));
     assertFalse(qn.isHappy(2));

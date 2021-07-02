@@ -718,11 +718,76 @@ public class InterviewQuestionImpl implements InterviewQuestion {
 
   @Override
   public List<List<Integer>> subsets(int[] nums) {
-    return null;
+    final String note = """
+        We know that in the first loop, we search all the possibilities of 1,x,x, then we remove 1 cand change to 2,x,x.
+        In the second loop, we discover 1,2,x and remove 2 to discover 1,3,(X)..
+        So the basic template does not change, the only thing we need to track is the position of where we have been tracking.
+        Since we are creating the power sets not the permutations, we have to start from the current index + 1, i.e. subsets(res, temp, nums, i + 1),
+        for e.g. if we are currently at 2, we are only interested in the numbers behind it to form a non-duplicated set.
+        """;
+    List<List<Integer>> res = new ArrayList<>();
+    subsets(res, new ArrayList<>(), nums, 0);
+    return res;
+  }
+
+  private void subsets(List<List<Integer>> res, List<Integer> list, int[] nums, int pos) {
+    List<Integer> temp = new ArrayList<>(list);
+    res.add(temp);
+
+    for (int i = pos; i < nums.length; i++) {
+      temp.add(nums[i]);
+      subsets(res, temp, nums, i + 1);
+      temp.remove(temp.size() - 1);
+    }
   }
 
   @Override
   public boolean exist(char[][] board, String word) {
+    final String note = """
+        For each character in the board, we will discover if we are able to search the word from there.
+        For each cell, it is necessary to search for all the four directions in order to find the answer.
+        So by combining that, our main method will just be looping through the board, and for each value we search for if it is viable to be searched.
+        In the recursive call, we will search all directions from that cell and decide what are the base cases.
+        We have to track for the cell index so that we know where can we start to search.
+        We have to have an extra value for tracking whether we've completed the search i.e. the int index.
+        In order not to search the same cell again, during 1 run, after visit the cell wwe will change its value to non-English characters and change it back after backtracking.
+        This prevent from using extra space like a boolean 2d array to store the visit status.
+        Noted in order to fail fast, we will directly return true if the characters in the word and in the board matches with their index.
+        If the index falls out of bound or the characters don't match, we directly return false to fail it.
+        """;
+    for (int i = 0; i < board.length; i++) {
+      for (int j = 0; j < board[0].length; j++) {
+        if (exist(board, word, i, j, 0)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  private boolean exist(char[][] board, String word, int i, int j, int index) {
+    // index tracks to which position we've searched for the word instead of passing a string builder to append the characters
+    if (index >= word.length()) {
+      return true;
+    }
+
+    if (i >= board.length || i < 0 || j >= board[0].length || j < 0 || board[i][j] != word
+        .charAt(index)) { // if the character we are searching now doesn't match with the word
+      return false;
+    }
+
+    // another 2d array of boolean to store the visited is not needed since we can toggle the cell value to other string first as the board will only contain English characters
+    char temp = board[i][j];
+    board[i][j] = '*';
+
+    // search for all 4 directions, if any one succeeds then return true
+    if (exist(board, word, i - 1, j, index + 1) || exist(board, word, i + 1, j, index + 1) || exist(
+        board, word, i, j - 1, index + 1) || exist(board, word, i, j + 1, index + 1)) {
+      return true;
+    }
+
+    // assign back the values as backtracking
+    board[i][j] = temp;
     return false;
   }
 

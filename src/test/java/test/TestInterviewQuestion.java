@@ -62,6 +62,12 @@ public interface TestInterviewQuestion {
   @Test
   void testPermute();
 
+  @Test
+  void testSubsets();
+
+  @Test
+  void testExist();
+
   /* Sorting and Searching **/
   /* Dynamic Programming **/
   /* Math **/
