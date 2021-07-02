@@ -16,3 +16,5 @@ gradle-app.setting
 *.ini
 *.iml
 *.xml
+gradlew
+gradle/wrapper/gradle-wrapper.properties
