@@ -2,14 +2,19 @@ package exercise;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
+import java.util.TreeMap;
 import model.ListNode;
 import model.Node;
 import model.TreeNode;
@@ -789,6 +794,202 @@ public class InterviewQuestionImpl implements InterviewQuestion {
     // assign back the values as backtracking
     board[i][j] = temp;
     return false;
+  }
+
+  @Override
+  public void sortColors(int[] nums) {
+    final String note = """
+        The question is asking for a in-place and O(N) sorting so we can count the number of colors respectively.
+        Then we can assign back the same amount of numbers to the original array.
+        """;
+    int countTwo = 0;
+    int countOne = 0;
+    int countZero = 0;
+
+    for (int num : nums) {
+      if (num == 0) {
+        countZero++;
+      } else if (num == 1) {
+        countOne++;
+      } else {
+        countTwo++;
+      }
+    }
+
+    assignNumToArrayFromIndex(nums, countZero, 0, 0);
+    assignNumToArrayFromIndex(nums, countOne, countZero, 1);
+    assignNumToArrayFromIndex(nums, countTwo, countZero + countOne, 2);
+  }
+
+  private void assignNumToArrayFromIndex(int[] nums, int count, int startingIndex, int num) {
+    for (int i = 0; i < count; i++) {
+      nums[startingIndex] = num;
+      startingIndex++;
+    }
+  }
+
+  @Override
+  public int[] topKFrequent(int[] nums, int k) {
+    final String note = """
+        The question is asking for time better than O(n log n) where n is the array size.
+        So we can traverse the original array in O(n) and build a frequency map, then we sort the map and get the top k elements.
+        Noted that we can return the numbers in any order.
+        """;
+    int[] res = new int[k];
+
+    Map<Integer, Integer> freq = new HashMap<>();
+    for (int num : nums) {
+      freq.putIfAbsent(num, 0);
+      freq.put(num, freq.get(num) + 1);
+    }
+
+    var list = new ArrayList<>(freq.entrySet());
+    Collections.sort(list, Map.Entry.comparingByValue(Comparator.reverseOrder()));
+
+    for (int i = 0; i < res.length; i++) {
+      res[i] = list.get(i).getKey();
+    }
+    return res;
+  }
+
+  @Override
+  public int findKthLargest(int[] nums, int k) {
+    final String note = """
+        We can either sort the array or directly use a max heap to store the numbers.
+        After that we pop k times the maximum number and we get the k-th largest number.
+        """;
+    PriorityQueue<Integer> queue = new PriorityQueue<>(Comparator.reverseOrder()); // max heap
+    for (int num : nums) {
+      queue.offer(num);
+    }
+    // stop condition is k > 1 not k > 0 else we will pop one extra element
+    while (k > 1) {
+      queue.poll();
+      k--;
+    }
+    return queue.peek();
+  }
+
+  @Override
+  public int findPeakElement(int[] nums) {
+    final String note = """
+        Noted that in the question, nums[-1] and nums[nums.length] can be treated as negative infinity, which means if it is an increasing sequence we should return the last index and vice versa.
+        In order to maintain a O(log n) time, we have to modify the common binary search.
+        If the middle value is larger than its right neighbour, then the range should be (left,mid). Reason of not (mid-1) is because mid itselft can be the peak.
+        If the middle value is smaller than its right neightbour, then the peak must be in the right i.e. (mid+1,right)
+        """;
+    if (nums.length == 1) {
+      return 0;
+    }
+    if (nums.length == 2) {
+      return nums[0] < nums[1] ? 1 : 0;
+    }
+    return findPeakElement(nums, 0, nums.length - 1);
+  }
+
+  private int findPeakElement(int[] nums, int i, int j) {
+    if (i > j) {
+      return -1;
+    }
+    int mid = (i + j) / 2;
+    if (mid < 0 || mid >= nums.length) {
+      return -1;
+    }
+
+    boolean leftmost = mid == 0 && nums[mid] > nums[mid + 1];
+    boolean rightmost = mid == nums.length - 1 && nums[mid - 1] < nums[mid];
+
+    if (leftmost || rightmost || (nums[mid] > nums[mid - 1] && nums[mid] > nums[mid + 1])) {
+      return mid;
+    } else if (nums[mid] < nums[mid + 1]) {
+      return findPeakElement(nums, mid + 1, j);
+    } else {
+      return findPeakElement(nums, i, mid);
+    }
+  }
+
+  @Override
+  public int[] searchRange(int[] nums, int target) {
+    final String note = """
+        The true way of doing this in a O(log n) time is to use binary search to find the starting and ending index of the target repectively.
+        Here is the method that is more intuitive, use binary search to find the first target and search from left and right for its starting and ending index.
+        """;
+    int l = 0;
+    int r = nums.length - 1;
+    int firstTarget = Integer.MAX_VALUE;
+
+    while (l <= r) {
+      int mid = l + (r - l) / 2;
+      if (nums[mid] == target) {
+        firstTarget = mid;
+        break;
+      } else if (nums[mid] > target) {
+        r = mid - 1;
+      } else {
+        l = mid + 1;
+      }
+    }
+
+    if (firstTarget == Integer.MAX_VALUE) {
+      return new int[]{-1, -1};
+    }
+    l = searchTargetFromLeft(nums, firstTarget);
+    r = searchTargetFromRight(nums, firstTarget);
+    return new int[]{l, r};
+  }
+
+
+  private int searchTargetFromLeft(int[] nums, int firstTarget) {
+    for (int i = firstTarget - 1; i >= 0; i--) {
+      if (nums[firstTarget] != nums[i]) {
+        return i + 1;
+      }
+    }
+    return 0;
+  }
+
+  private int searchTargetFromRight(int[] nums, int firstTarget) {
+    for (int i = firstTarget + 1; i < nums.length; i++) {
+      if (nums[firstTarget] != nums[i]) {
+        return i - 1;
+      }
+    }
+    return nums.length - 1;
+  }
+
+  @Override
+  public int[][] merge(int[][] intervals) {
+    return new int[0][];
+  }
+
+  @Override
+  public int search(int[] nums, int target) {
+    return 0;
+  }
+
+  @Override
+  public boolean searchMatrix(int[][] matrix, int target) {
+    return false;
+  }
+
+  @Override
+  public boolean canJump(int[] nums) {
+    return false;
+  }
+
+  @Override
+  public int uniquePaths(int m, int n) {
+    return 0;
+  }
+
+  @Override
+  public int coinChange(int[] coins, int amount) {
+    return 0;
+  }
+
+  @Override
+  public int lengthOfLIS(int[] nums) {
+    return 0;
   }
 
   @Override

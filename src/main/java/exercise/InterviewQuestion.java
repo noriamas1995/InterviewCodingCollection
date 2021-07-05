@@ -115,7 +115,69 @@ public interface InterviewQuestion {
   boolean exist(char[][] board, String word);
 
   /* Sorting and Searching **/
+
+  /**
+   * @see <a href="https://leetcode.com/explore/interview/card/top-interview-questions-medium/110/sorting-and-searching/798/">Leetcode</a>
+   */
+  void sortColors(int[] nums);
+
+  /**
+   * @see <a href="https://leetcode.com/explore/interview/card/top-interview-questions-medium/110/sorting-and-searching/799/">Leetcode</a>
+   */
+  int[] topKFrequent(int[] nums, int k);
+
+  /**
+   * @see <a href="https://leetcode.com/explore/interview/card/top-interview-questions-medium/110/sorting-and-searching/800/">Leetcode</a>
+   */
+  int findKthLargest(int[] nums, int k);
+
+  /**
+   * @see <a href="https://leetcode.com/explore/interview/card/top-interview-questions-medium/110/sorting-and-searching/801/">Leetcode</a>
+   */
+  int findPeakElement(int[] nums);
+
+  /**
+   * @see <a href="https://leetcode.com/explore/interview/card/top-interview-questions-medium/110/sorting-and-searching/802/">Leetcode</a>
+   */
+  int[] searchRange(int[] nums, int target);
+
+  /**
+   * @see <a href="https://leetcode.com/explore/interview/card/top-interview-questions-medium/110/sorting-and-searching/803/">Leetcode</a>
+   */
+  int[][] merge(int[][] intervals);
+
+  /**
+   * @see <a href="https://leetcode.com/explore/interview/card/top-interview-questions-medium/110/sorting-and-searching/804/">Leetcode</a>
+   */
+  int search(int[] nums, int target);
+
+  /**
+   * @see <a href="https://leetcode.com/explore/interview/card/top-interview-questions-medium/110/sorting-and-searching/806/">Leetcode</a>
+   */
+  boolean searchMatrix(int[][] matrix, int target);
+
   /* Dynamic Programming **/
+
+  /**
+   * @see <a href="https://leetcode.com/explore/interview/card/top-interview-questions-medium/111/dynamic-programming/807/">Leetcode</a>
+   */
+  boolean canJump(int[] nums);
+
+  /**
+   * @see <a href="https://leetcode.com/explore/interview/card/top-interview-questions-medium/111/dynamic-programming/808/">Leetcode</a>
+   */
+  int uniquePaths(int m, int n);
+
+  /**
+   * @see <a href="https://leetcode.com/explore/interview/card/top-interview-questions-medium/111/dynamic-programming/809/">Leetcode</a>
+   */
+  int coinChange(int[] coins, int amount);
+
+  /**
+   * @see <a href="https://leetcode.com/explore/interview/card/top-interview-questions-medium/111/dynamic-programming/810/">Leetcode</a>
+   */
+  int lengthOfLIS(int[] nums);
+  
   /* Math **/
 
   /**

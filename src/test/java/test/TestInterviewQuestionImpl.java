@@ -1,5 +1,6 @@
 package test;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -13,6 +14,7 @@ import static util.InterviewQuestionTestUtil.display2dArray;
 import exercise.InterviewQuestion;
 import exercise.InterviewQuestionImpl;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import model.ListNode;
 import model.TreeNode;
@@ -309,6 +311,52 @@ public class TestInterviewQuestionImpl implements TestInterviewQuestion {
     char[][] board = new char[][]{{'A', 'B', 'C', 'E'}, {'S', 'F', 'C', 'S'}, {'A', 'D', 'E', 'E'}};
     assertTrue(qn.exist(board, "ABCCED"));
     assertFalse(qn.exist(board, "ABCB"));
+  }
+
+  @Override
+  @Test
+  public void testSortColors() {
+    int[] test = new int[]{2, 0, 2, 1, 1, 0};
+    qn.sortColors(test);
+    assertArrayEquals(new int[]{0, 0, 1, 1, 2, 2}, test);
+    assertEquals(6, test.length);
+  }
+
+  @Override
+  @Test
+  public void testTopKFrequent() {
+    int[] result = qn.topKFrequent(new int[]{1, 1, 1, 2, 2, 3}, 2);
+    assertArrayEquals(new int[]{1, 2}, result);
+  }
+
+  @Override
+  @Test
+  public void testFindKthLargest() {
+    int result = qn.findKthLargest(new int[]{3, 2, 3, 1, 2, 4, 5, 5, 6}, 4);
+    assertEquals(4, result);
+  }
+
+  @Override
+  @Test
+  public void testFindPeakElement() {
+    int result = qn.findPeakElement(new int[]{1, 2, 3, 1});
+    assertEquals(2, result);
+
+    result = qn.findPeakElement(new int[]{1, 2, 1, 3, 5, 6, 4});
+    assertEquals(5, result);
+  }
+
+  @Override
+  @Test
+  public void testSearchRange() {
+    int[] result = qn.searchRange(new int[]{5, 7, 7, 8, 8, 10}, 8);
+    assertArrayEquals(new int[]{3, 4}, result);
+
+    result = qn.searchRange(new int[]{5, 7, 7, 8, 8, 10}, 6);
+    assertArrayEquals(new int[]{-1, -1}, result);
+
+    result = qn.searchRange(new int[]{},0);
+    assertArrayEquals(new int[]{-1,-1},result);
   }
 
   @Override

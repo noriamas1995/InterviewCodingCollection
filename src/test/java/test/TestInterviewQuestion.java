@@ -69,6 +69,21 @@ public interface TestInterviewQuestion {
   void testExist();
 
   /* Sorting and Searching **/
+  @Test
+  void testSortColors();
+
+  @Test
+  void testTopKFrequent();
+
+  @Test
+  void testFindKthLargest();
+
+  @Test
+  void testFindPeakElement();
+
+  @Test
+  void testSearchRange();
+
   /* Dynamic Programming **/
   /* Math **/
   @Test
