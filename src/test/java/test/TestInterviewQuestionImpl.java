@@ -355,8 +355,59 @@ public class TestInterviewQuestionImpl implements TestInterviewQuestion {
     result = qn.searchRange(new int[]{5, 7, 7, 8, 8, 10}, 6);
     assertArrayEquals(new int[]{-1, -1}, result);
 
-    result = qn.searchRange(new int[]{},0);
-    assertArrayEquals(new int[]{-1,-1},result);
+    result = qn.searchRange(new int[]{}, 0);
+    assertArrayEquals(new int[]{-1, -1}, result);
+  }
+
+  @Override
+  @Test
+  public void testMerge() {
+    /**
+     * Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
+     * Output: [[1,6],[8,10],[15,18]]
+     * Explanation: Since intervals [1,3] and [2,6] overlaps, merge them into [1,6].
+     */
+    int[][] testCase = new int[][]{{1, 3}, {2, 6}, {8, 10}, {15, 18}};
+    int[][] testResult = qn.merge(testCase);
+    assertArrayEquals(new int[][]{{1, 6}, {8, 10}, {15, 18}}, testResult);
+
+    /**
+     * Input: intervals = [[1,4],[4,5]]
+     * Output: [[1,5]]
+     * Explanation: Intervals [1,4] and [4,5] are considered overlapping.
+     */
+    testCase = new int[][]{{1, 4}, {4, 5}};
+    testResult = qn.merge(testCase);
+    assertArrayEquals(new int[][]{{1, 5}}, testResult);
+  }
+
+  @Override
+  @Test
+  public void testCanJump() {
+    assertFalse(qn.canJump(new int[]{3, 2, 1, 0, 4}));
+    assertTrue(qn.canJump(new int[]{2, 3, 1, 1, 4}));
+  }
+
+  @Override
+  @Test
+  public void testUniquePaths() {
+    assertEquals(28, qn.uniquePaths(3, 7));
+    assertEquals(6, qn.uniquePaths(3, 3));
+  }
+
+  @Override
+  @Test
+  public void testCoinChange() {
+    assertEquals(3, qn.coinChange(new int[]{1, 2, 5}, 11));
+    assertEquals(-1, qn.coinChange(new int[]{2}, 3));
+  }
+
+  @Override
+  @Test
+  public void testLengthOfLIS() {
+    assertEquals(4, qn.lengthOfLIS(new int[]{10, 9, 2, 5, 3, 7, 101, 18}));
+    assertEquals(4, qn.lengthOfLIS(new int[]{0, 1, 0, 3, 2, 3}));
+    assertEquals(1, qn.lengthOfLIS(new int[]{7, 7, 7, 7, 7, 7, 7}));
   }
 
   @Override

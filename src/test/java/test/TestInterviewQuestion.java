@@ -84,7 +84,22 @@ public interface TestInterviewQuestion {
   @Test
   void testSearchRange();
 
+  @Test
+  void testMerge();
+
   /* Dynamic Programming **/
+  @Test
+  void testCanJump();
+
+  @Test
+  void testUniquePaths();
+
+  @Test
+  void testCoinChange();
+
+  @Test
+  void testLengthOfLIS();
+
   /* Math **/
   @Test
   void testIsHappy();

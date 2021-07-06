@@ -959,7 +959,28 @@ public class InterviewQuestionImpl implements InterviewQuestion {
 
   @Override
   public int[][] merge(int[][] intervals) {
-    return new int[0][];
+    final String note = """
+        If we can sort the intervals by the left part, then we can conclude some patterns mathamatically.
+        If the intervals to be intervals = [[1,3],[2,6],[8,10],[15,18]] we note as a,b and a',b' when comparing 2 intervals.
+        If they don't overlap at all, then b must < a' else they will overlap.
+        If they overlap, we will have the merged interval as [min(a,a')][max(b,b')], however, since we already sort the array i.e. a must <= a',
+        so we can ignore the calculation on the left and only update the right part.
+        That being said, we will directly add the interval to the merged list if they don't overlap,
+        if they do, we will get the last interval from merged list and update its right side value due to overlapping.
+        """;
+    Arrays.sort(intervals,
+        (a, b) -> Integer.compare(a[0], b[0])); // sort the 2d array by the left side
+    LinkedList<int[]> merged = new LinkedList<>(); // create a list of int array
+    for (int[] interval : intervals) {
+      // if the list of merged intervals is empty or if the current interval does not overlap with the previous, simply append it.
+      if (merged.isEmpty() || merged.getLast()[1] < interval[0]) {
+        merged.add(interval);
+      } else {
+        // otherwise, there is overlap, so we merge the current and previous intervals.
+        merged.getLast()[1] = Math.max(merged.getLast()[1], interval[1]);
+      }
+    }
+    return merged.toArray(new int[merged.size()][]);
   }
 
   @Override
@@ -974,22 +995,91 @@ public class InterviewQuestionImpl implements InterviewQuestion {
 
   @Override
   public boolean canJump(int[] nums) {
-    return false;
+    final String note = """
+        We keep tracking the last good index from the last element, if the current position plus the jump can reach such index, then the current position is good.
+        Keep updating the lastGoodIndex and check if it gets to the first element of the array.
+        Compared to backtracking this algorithem runs in linear time sapce.
+        """;
+    int lastGoodIndex = nums.length - 1;
+    for (int i = nums.length - 1; i >= 0; i--) {
+      if (i + nums[i] >= lastGoodIndex) {
+        lastGoodIndex = i;
+      }
+    }
+    return lastGoodIndex == 0;
   }
 
   @Override
   public int uniquePaths(int m, int n) {
-    return 0;
+    final String note = """
+        The brute force recursive call will be:
+            if (m == 1 && n==1) return 1;
+            if (m< 0 || n <0) return 0;
+            return uniquePaths(m-1,n) + uniquePaths(m,n-1);
+        We need to cache the result to use dynamic programming.
+        We use a bottom-up approach, we know our base case is 0 if either m or n reaches 0, also if m and n are 1 means we reach the point we want so it is 1.
+        Eventually we want to reach the value of memo[m][n].
+        """;
+    int[][] memo = new int[m + 1][n + 1];
+    for (int i = 0; i < memo.length; i++) {
+      for (int j = 0; j < memo[0].length; j++) {
+        if (i == 0 || j == 0) {
+          continue;
+        }
+        memo[i][j] = (i == 1 && j == 1) ? 1 : memo[i - 1][j] + memo[i][j - 1];
+      }
+    }
+    return memo[m][n];
   }
 
   @Override
   public int coinChange(int[] coins, int amount) {
-    return 0;
+    final String note = """
+        Firstly we need to draw the recursive tree to examine the patter.
+        We found that for Brute Force, the final amount needs to be checked with each coin, i.e. only left amount - coinValue.
+        And for each of the remaining amount we doing the same thing until a base case is hit, if negative then ignore, if the balance is 0 means valid.
+        For e.g. if the coins = [1,2,5] and amount = 11, for dp[11] we need to check 11-1=10, 11-2=9, and 11-5=6. So the answer must be one of these plus 1 more coin (either 1,2 or 5).
+        So dp[11] = min(dp[10],dp[9],dp[6]) + 1, we set dp[11] to an impossible value first so we can update the minimum of it.
+        """;
+    int[] memo = new int[amount + 1]; // store the minimum number of coins needed for each amount
+    Arrays
+        .fill(memo, amount + 1); // if looking for $11 then the number of coin cannot exceed 11 + 1
+    memo[0] = 0; // base case
+
+    for (int i = 1; i < memo.length; i++) {
+      for (int j = 0; j < coins.length; j++) {
+        final int balance = i - coins[j];
+        if (balance >= 0) {
+          // no need a global and local min vairable, can directly compare to memo[i] since it already stores the minimum
+          memo[i] = Math.min(memo[i], 1 + memo[balance]);
+        }
+      }
+    }
+    return memo[amount] == (amount + 1) ? -1 : memo[amount];
   }
 
   @Override
   public int lengthOfLIS(int[] nums) {
-    return 0;
+    final String note = """
+        This is the DP solution with time complexity O(n^2).
+        Let's say the array is 10,9,2,5,3,7,101,18, we want to know the length of the LIS at the last index.
+        For e.g. if we break it down into smaller sub-problems, if we want to know the LIS at the position of 7,
+        actually since the question is asking for sub-sequence, so 3 can go to 7, 5 can go to 7, any number < 7 can append 7 as the increasing subsequence.
+        So need to check all elements before 7 just in case we miss any optimal solution, more over we need to make sure only numbers smaller than 7 can append 7.
+        In a nutshell we need to check all cache before 7 and get the maximum length.
+        """;
+    int[] memo = new int[nums.length];
+    Arrays.fill(memo, 1);
+    int max = 1;
+    for (int i = 1; i < nums.length; i++) {
+      for (int j = 0; j < i; j++) {
+        if (nums[j] < nums[i]) {
+          memo[i] = Math.max(memo[i], memo[j] + 1);
+        }
+        max = Math.max(memo[i], max);
+      }
+    }
+    return max;
   }
 
   @Override
