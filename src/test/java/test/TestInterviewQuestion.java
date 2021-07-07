@@ -87,6 +87,12 @@ public interface TestInterviewQuestion {
   @Test
   void testMerge();
 
+  @Test
+  void testSearch();
+
+  @Test
+  void testSearchMatrix();
+
   /* Dynamic Programming **/
   @Test
   void testCanJump();

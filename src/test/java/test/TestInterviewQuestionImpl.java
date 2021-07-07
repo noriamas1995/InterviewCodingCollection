@@ -383,6 +383,36 @@ public class TestInterviewQuestionImpl implements TestInterviewQuestion {
 
   @Override
   @Test
+  public void testSearch() {
+    assertEquals(4, qn.search(new int[]{4, 5, 6, 7, 0, 1, 2}, 0));
+    assertEquals(-1, qn.search(new int[]{4, 5, 6, 7, 0, 1, 2}, 3));
+    assertEquals(-1, qn.search(new int[]{1}, 0));
+  }
+
+  @Override
+  @Test
+  public void testSearchMatrix() {
+    /**
+     * Input: matrix = [
+     * [1,  4,  7,  11, 15],
+     * [2,  5,  8,  12, 19],
+     * [3,  6,  9,  16, 22],
+     * [10, 13, 14, 17, 24],
+     * [18, 21, 23, 26, 30]
+     * ],
+     *
+     * target = 5
+     * Output: true
+     */
+
+    int[][] matrix = new int[][]{{1, 4, 7, 11, 15}, {2, 5, 8, 12, 19}, {3, 6, 9, 16, 22},
+        {10, 13, 14, 17, 24}, {18, 21, 23, 26, 30}};
+    assertTrue(qn.searchMatrix(matrix, 5));
+    assertFalse(qn.searchMatrix(matrix, 20));
+  }
+
+  @Override
+  @Test
   public void testCanJump() {
     assertFalse(qn.canJump(new int[]{3, 2, 1, 0, 4}));
     assertTrue(qn.canJump(new int[]{2, 3, 1, 1, 4}));

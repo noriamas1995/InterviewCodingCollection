@@ -985,11 +985,66 @@ public class InterviewQuestionImpl implements InterviewQuestion {
 
   @Override
   public int search(int[] nums, int target) {
-    return 0;
+    final String note = """
+        Since the original array's sub-arrays are in sorted order, if we know which sub-array the target lies in, we can perform a standard binary search.
+        So to achieve this, we need to find the pivot point (if applicable) first, the pivot point will always be the smallest element.
+        We will also modify the binary search to find the smallest element by comparing the middle value to the left or right end value.
+        After that by comparing the target to end values again we know which side does it lie.
+        We then record the start and end index and perform a common binary search among the index.
+        """;
+    int left = 0;
+    int right = nums.length - 1;
+    // find the smallest element (if rotated then it is also the pivot index)
+    while (left < right) {
+      int mid = (left + right) / 2;
+      if (nums[mid] > nums[right]) {
+        left = mid + 1; // if mid > right, mid cannot be the smallest point so skip mid
+      } else {
+        right = mid; // if mid <= right, mid is possible the smallest point so need to include
+      }
+    }
+    // now left is the pivot index and we find which side the target lies
+    int start = left;
+    left = 0;
+    right = nums.length - 1;
+    if (target > nums[start] && target > nums[right]) {
+      right = start;
+    } else {
+      left = start;
+    }
+    // perform common binary search
+    while (left <= right) {
+      int mid = (left + right) / 2;
+      if (nums[mid] > target) {
+        right = mid - 1;
+      } else if (nums[mid] < target) {
+        left = mid + 1;
+      } else {
+        return mid;
+      }
+    }
+    return -1;
   }
 
   @Override
   public boolean searchMatrix(int[][] matrix, int target) {
+    final String note = """
+        If keeping thinking about improve binary search in the matrix then there will be no fast solutions.
+        Since both the rows and columns are sorted, we can always compare to the top right corner value and gradually shrink our search range.
+        """;
+    int row = 0;
+    int col = matrix[0].length - 1;
+    while (row < matrix.length && col >= 0) { // while there are rows and columns to consider
+      if (target == matrix[row][col]) {
+        return true;
+      }
+      if (target
+          < matrix[row][col]) { // if target < last col top value, then target won't be in that column since it's ascending
+        col--;
+      } else { // if target > last col top value, then target won't be in that row because it exceeds the maximum number on that row.
+        row++;
+      }
+    }
     return false;
   }
 
